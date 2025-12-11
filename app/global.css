@@ -2,6 +2,7 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
 @font-face {
   font-family: 'Mona Sans';
@@ -36,6 +37,7 @@
 
 @theme inline {
   --font-sans: 'Mona Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-heading: 'Hubot Sans', ui-sans-serif, system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -149,4 +151,8 @@
   body {
     @apply bg-background text-foreground font-sans;
   }
+}
+
+.font-heading {
+  font-family: 'Hubot Sans', ui-sans-serif, system-ui, sans-serif;
 }

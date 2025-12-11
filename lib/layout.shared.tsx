@@ -4,6 +4,13 @@ export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
       title: "Chris Roth",
+      url: "/",
     },
+    links: [
+      {
+        text: "Blog",
+        url: "/docs",
+      },
+    ],
   };
 }
