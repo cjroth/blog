@@ -5,13 +5,13 @@ import type { Metadata } from "next";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import Link from "next/link";
 
-export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
+export default async function Page(props: PageProps<"/blog/[[...slug]]">) {
   const params = await props.params;
 
   // If no slug, show blog listing
   if (!params.slug || params.slug.length === 0) {
     const pages = source.getPages().filter((page) => {
-      return page.url !== "/docs";
+      return page.url !== "/blog";
     });
 
     const sortedPages = pages.sort((a, b) => {
@@ -22,15 +22,6 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
 
     return (
       <main className="container max-w-4xl mx-auto px-4 py-12 sm:py-16">
-        <div className="mb-12 space-y-4">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight font-heading">
-            Blog
-          </h1>
-          <p className="text-xl text-muted-foreground">
-            Thoughts on software, design, and building products.
-          </p>
-        </div>
-
         <div className="space-y-8">
           {sortedPages.map((page) => (
             <article
@@ -47,21 +38,6 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
                         day: "numeric",
                       })}
                     </time>
-                  )}
-                  {page.data.tags && page.data.tags.length > 0 && (
-                    <>
-                      <span>•</span>
-                      <div className="flex gap-2">
-                        {page.data.tags.slice(0, 3).map((tag) => (
-                          <span
-                            key={tag}
-                            className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </>
                   )}
                 </div>
 
@@ -173,7 +149,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  props: PageProps<"/docs/[[...slug]]">,
+  props: PageProps<"/blog/[[...slug]]">,
 ): Promise<Metadata> {
   const params = await props.params;
 

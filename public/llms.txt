@@ -1,0 +1,13 @@
+# Chris Roth's Blog
+
+> Personal blog about software engineering, design, and building products
+
+## Sitemap
+
+- Home: /
+- Blog: /blog
+
+## Full Content
+
+For the complete markdown content of all blog posts, visit:
+/llms-full.txt

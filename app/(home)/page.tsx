@@ -83,7 +83,7 @@ export default function HomePage() {
 
         {/* Call to Action */}
         <Button asChild size="lg" className="w-fit rounded-full">
-          <Link href="/docs" className="flex items-center gap-2">
+          <Link href="/blog" className="flex items-center gap-2">
             Read my writing
             <ArrowRight className="w-4 h-4" />
           </Link>
