@@ -61,15 +61,15 @@ The problem is positioning. Tool calls don't let the LLM precisely place a widge
 
 You could add some kind of positioning metadata to the tool call—but that gets complicated and error-prone fast.
 
-## API-Powered Widgets
+## API-Powered Widgets 🎉
 
-The approach that worked—and the one we stuck with—was to remove the weather tool entirely.
+The approach that worked—and the one we stuck with—was to make the widget fetch its own data.
 
-We realized that having instructions for both "how to check the weather" and "how to use a weather widget" was redundant and added extra steps.
+Previously, the LLM had to call a weather tool, receive the forecast data, then pass that data into an XML widget tag. Two steps, lots of output tokens.
 
-The bottleneck was the agent having to call a weather tool and then pass the data as expensive, slow output tokens into an XML tag.
+We realized we could collapse this into one step: give the LLM a simple widget that only needs a location, and have the widget itself call an API endpoint to fetch the forecast. The LLM no longer needs to output any weather data—just a short tag.
 
-The fewer output tokens (again, slow and expensive), the better. So we gave it a simple widget that required very few tokens to call, and moved our forecast-fetching logic into an API endpoint that could respond with JSON fast.
+The fewer output tokens, the better. This approach minimizes them.
 
 ```tsx
 <widget:weather days="5" location="New York City">
