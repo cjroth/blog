@@ -1,0 +1,80 @@
+---
+title: "Achieving Ultra-Fast AI Chat Widgets"
+description: Subtle differences in AI tool design make a drastic difference for performance.
+date: 2026-02-05
+author: Chris Roth
+tags: [ai, software, ux, design]
+---
+
+A project I'm working on at Mozilla embeds visual UI widgets inside a chat UI. For example, we have a weather widget that shows a 5-day forecast.
+
+Conceptually, this is easy to build—but after multiple iterations, we found that the naive approach to agentic UI widgets is terrible. The single most important thing is to *design tools and widgets that require few tokens to use*. ***Output tokens are slow and expensive.***
+
+Here are a few approaches we tried, why they didn't work, and what finally did.
+
+## Naive Approach: Render XML with JSON Props 👎
+
+Our first attempt: have the LLM fetch the weather with a tool, generate an XML widget tag, then intercept that tag in code and replace it with a React component.
+
+```tsx
+<widget:weather forecast={[
+  { "day": "Mon", "high": 72, "low": 58, "condition": "sunny" },
+  { "day": "Tue", "high": 68, "low": 55, "condition": "partly_cloudy" },
+  { "day": "Wed", "high": 65, "low": 52, "condition": "rainy" },
+  { "day": "Thu", "high": 70, "low": 54, "condition": "cloudy" },
+  { "day": "Fri", "high": 75, "low": 60, "condition": "sunny" }
+]} />
+```
+
+This requires the LLM to have the weather data in its context. It generates a search tool call, waits for the result, then generates the XML tag.
+
+The XML tag itself was slow to generate—the data required to render the widget is a lot of tokens, especially in JSON format.
+
+The user would see nothing while the LLM output each token, until the final closing `/>` bracket was detected.
+
+We tried reducing the data needed to render the widget—minimizing JSON props, etc—but it still didn't feel *instant*.
+
+
+## Buffer Data with Loading Skeleton 👎
+
+Another approach used the same XML widget and JSON data:
+
+```tsx
+<widget:weather forecast={[
+  { "day": "Mon", "high": 72, "low": 58, "condition": "sunny" },
+  { "day": "Tue", "high": 68, "low": 55, "condition": "partly_cloudy" },
+  { "day": "Wed", "high": 65, "low": 52, "condition": "rainy" },
+  { "day": "Thu", "high": 70, "low": 54, "condition": "cloudy" },
+  { "day": "Fri", "high": 75, "low": 60, "condition": "sunny" }
+]} />
+```
+
+This time, we *immediately* rendered the weather widget with skeleton loaders, then collected the JSON forecast as each day of weather data was generated and displayed it in the UI.
+
+Better than waiting for the full XML tag, since it provided instant feedback. But it still took a while for the LLM to output the full weather JSON—and this was still after waiting for the initial search tool call.
+
+## Tool Calls for Widget Rendering 👎
+
+Why not use a tool call that tells the LLM to render a widget?
+
+The problem is positioning. Tool calls don't let the LLM precisely place a widget in the middle of a long text response. When a tool call is made, the chat completion stops, waits for the response, and then continues. The widget ends up at the boundary between completions, not inline where the LLM intended.
+
+You could add some kind of positioning metadata to the tool call—but that gets complicated and error-prone fast.
+
+## API-Powered Widgets
+
+The approach that worked—and the one we stuck with—was to remove the weather tool entirely.
+
+We realized that having instructions for both "how to check the weather" and "how to use a weather widget" was redundant and added extra steps.
+
+The bottleneck was the agent having to call a weather tool and then pass the data as expensive, slow output tokens into an XML tag.
+
+The fewer output tokens (again, slow and expensive), the better. So we gave it a simple widget that required very few tokens to call, and moved our forecast-fetching logic into an API endpoint that could respond with JSON fast.
+
+```tsx
+<widget:weather days="5" location="New York City">
+```
+
+## Conclusion
+
+Minimize output tokens. They're slow to generate and expensive. Design your widgets and tools so the LLM can invoke them with as few tokens as possible—and offload data fetching to fast API endpoints.
