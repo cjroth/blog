@@ -1,0 +1,91 @@
+---
+title: "Moats in the Age of AI"
+description: If software becomes nearly free to build and AI models become commoditized, where does economic value actually get captured?
+date: 2026-02-11
+author: Chris Roth
+tags: [ai, economics, investing, software]
+---
+
+In the world of AI, how do you build a moat?
+
+The world believed OpenAI and Anthropic were building empires—the next Google-like mega-caps. Then DeepSeek [poked a massive hole](https://fortune.com/2025/01/27/deepseek-just-flipped-the-ai-script-in-favor-of-open-source-and-the-irony-for-openai-and-anthropic-is-brutal/) in the idea that frontier AI companies had any meaningful moat at all—open-sourcing a competitive model built for under $6 million.
+
+## Software Is No Longer a Moat
+
+In the past, some software companies built technical moats through sheer complexity—creating reservoirs of millions of human-years of effort. Chrome and Firefox have [21-36 million lines of code](https://en.softonic.com/articles/programs-lines-code) accumulated over decades. Building something comparable required enormous investment in both time and talent.
+
+That's no longer true. I'm not saying anyone can build Chrome in a weekend—most of the work is still coordinating humans, product management, design decisions. But the millions of human-years it took to write the code are compressing by 3x or more. It's now cheaper to rebuild from scratch in a modern language with an order of magnitude fewer lines of code, using a stack that's native to the LLM's training data and easy for it to traverse. What was an asset four years ago is now dead weight.
+
+We're already seeing this play out. [uv](https://astral.sh/blog/uv) is a Rust rewrite that replaces pip, virtualenv, pyenv, and pip-tools in a single binary—10-100x faster. [Ruff](https://github.com/astral-sh/ruff) replaced Python linting tools. [OXC](https://github.com/oxc-project/oxc) and [Biome](https://biomejs.dev/blog/announcing-biome/) are rewriting JavaScript tooling in Rust with 3-100x speedups. Languages like Rust and Zig used to have steep learning curves that limited adoption. AI coding tools flatten that curve—you can now build in these languages without years of experience, making rewrites far more accessible.
+
+Anthropic recently had [16 AI agents build a complete C compiler from scratch](https://www.anthropic.com/engineering/building-c-compiler)—100,000 lines of Rust code that passes 99% of GCC's torture tests and can compile the Linux kernel. Total cost: $20,000. Two weeks of execution time. No human writing code.
+
+So AI companies are trying to build secondary moats: vertically integrated software platforms on top of their models, and user feedback loops that generate proprietary training data. Things like the ability to connect your Google account, add [MCP servers](https://www.anthropic.com/engineering/code-execution-with-mcp), and build agentic workflows. But this, being software, is not much of a moat either—[OpenClaw](https://en.wikipedia.org/wiki/OpenClaw), an open-source alternative to Claude Code, hit 145,000 GitHub stars in weeks.
+
+## Data Isn't The Best Moat Either
+
+AI companies' main moat was supposed to be proprietary training data, but [they're running out](https://www.weforum.org/stories/2025/12/data-ai-training-synthetic/). As Ilya Sutskever put it: "We've achieved peak data and there'll be no more"—comparing human-generated content to a [finite resource like oil](https://petapixel.com/2025/01/09/have-ai-companies-run-out-of-training-data-elon-musk-ilya-sutskever-thinks-so/).
+
+And even this scarcity might not matter. Synthetic data is proving nearly as good as real data—sometimes better for edge cases—and it's trivial to generate. [Gartner predicts](https://research.aimultiple.com/synthetic-data-vs-real-data/) that by 2030, synthetic data will be more widely used for AI training than real-world datasets. If anyone can generate their own training data, proprietary data stops being a moat.
+
+In a world where both AI models and software are commoditized, where does economic value get captured?
+
+## What Moats Still Exist?
+
+If software moats are eroding, what still holds?
+
+* **Compute** — physical infrastructure that's hard to replicate
+* **Human relationships** — partnerships, contracts, brand recognition
+* **Capital** — cash in the bank to weather competition
+* **Proprietary data** — data that can't be scraped or synthesized
+* **Team** — rare talent that competitors can't easily poach
+* **Exclusive rights** — patents, trademarks, copyrights, regulatory licenses
+* **Network effects** — value that scales with users
+
+## Compute: The Near-Term Moat
+
+In the short run, compute is scarce and the supply chain for creating more is undersupplied. Nvidia remains the [largest company in the world by market cap at $4.3 trillion](https://www.nasdaq.com/articles/prediction-nvidia-will-be-worth-7-trillion-end-2026) because demand for AI chips continues to far outpace supply.
+
+[DRAM prices are surging 50-55%](https://www.cnbc.com/2026/01/10/micron-ai-memory-shortage-hbm-nvidia-samsung.html) quarter-over-quarter due to AI memory shortages. Nvidia may [skip releasing a gaming GPU in 2026](https://www.benzinga.com/markets/tech/26/02/50422774/nvidia-stock-wobbles-as-ai-memory-crunch-kills-2026-gaming-gpu-launch) entirely—a first in three decades—because all memory is being diverted to AI.
+
+Compute requires energy, physical materials, water (for cooling), land, and extremely rare talent. These resources are all scarce. Companies like Google, Microsoft, Amazon, and Meta are pouring [$700 billion combined into data center infrastructure in 2026](https://www.cnbc.com/2026/02/06/google-microsoft-meta-amazon-ai-cash.html)—a staggering increase from $359 billion in 2025 and just $31 billion a decade ago.
+
+Water is an underappreciated part of this moat. Data centers need enormous amounts of it for cooling—[globally, they consume about 560 billion liters annually](https://www.brookings.edu/articles/ai-data-centers-and-water/), projected to rise to 1,200 billion liters by 2030. You can't just build a data center anywhere; you need water rights, and those are increasingly hard to get. Arizona has [limited home construction](https://www.eesi.org/articles/view/data-centers-and-water-consumption) in the Phoenix area to preserve groundwater, yet [160+ AI data centers have been built in water-scarce areas](https://www.bloomberg.com/graphics/2025-ai-impacts-data-centers-water-data/) across the US in just the past three years. Companies that locked in water access early have a geographic advantage that's nearly impossible to replicate.
+
+Cloud compute providers—GCP, Azure, AWS—will have serious moats in a world where cloud compute is a genuinely scarce resource.
+
+## The On-Device Counter-Narrative
+
+But there's another world where on-device AI gradually improves and becomes competitive with cloud-based AI for many use cases.
+
+We've already seen elements of this. Apple has built an entire [privacy-first AI strategy around on-device processing](https://machinelearning.apple.com/research/introducing-apple-foundation-models)—their ~3B parameter on-device models handle photo classification, semantic search, and features like Enhanced Visual Search without ever sending data to the cloud.
+
+Small reasoning models now run on phones in under 900 MB. The trend is clear: [running LLMs on phones has moved from novelty to practical engineering](https://www.edge-ai-vision.com/2026/01/on-device-llms-in-2026-what-changed-what-matters-whats-next/)—driven by latency, privacy, cost, and offline availability. [CES 2026 was dominated by on-device AI announcements](https://enclaveai.app/blog/2026/01/15/local-ai-early-2026-ces-highlights-new-models/)—Intel and AMD both released chips specifically designed to run large AI models locally without cloud services.
+
+I don't think on-device AI will ever fully "catch up" to cloud for frontier capabilities. But it will handle a huge subset of problems that take load off the cloud. In this scenario, even cloud compute could have less of a moat than we think as more computing moves onto end-user devices. (Plus this is better for privacy.)
+
+In this world, Apple's moat is stronger than the market currently believes, and its AI strategy might not be as bad as the market perceives.
+
+## The Weakest Moats
+
+Companies with the weakest moats are probably pure software companies—SaaS and AI model creators. This is unfortunate because it means there might not be a huge financial incentive to build the next generation of frontier models. Frontier companies will always be chasing a smaller and smaller first-mover advantage.
+
+[Open-source models now trail proprietary frontier models by only 3 months on average](https://www.interconnects.ai/p/2025-open-models-year-in-review). The moment something is possible, it's commoditized.
+
+## The Strongest Moats
+
+So what will have the strongest moats in an AI-commoditized world?
+
+1. **Energy + logistics companies** that can produce *and transport* energy at scale, and which have the right land and water rights.
+
+2. **Compute companies** located next to scarce energy and water sources—where geography itself becomes the moat.
+
+3. **Relationship-based companies** built on partnerships, contracts, social networks, and brands that are hard to replace even if the underlying software is trivial to rebuild. Companies like Meta or ByteDance with billions of users and network effects. Government contractors locked into ultra-long custom contracts with deep relationships that are nearly impossible to compete with.
+
+## A Note on Absolutes
+
+This is mostly a thought experiment in a world of extremes. Software will probably never be truly "free" to create—there will always be human product management, design decisions, and coordination involved. Complex software will still require meaningful compute to generate.
+
+I do think there will be *some* moat to creating complex, well-designed, tasteful software. And AI tools are opening the door to apps that aren't VC-scale but which could be run by a single person or small team—things that were previously too much work for one person to build but not valuable enough to sell profitably. This category of niche apps will flourish.
+
+The set of things worth building just got a lot bigger. The moats around those things just got a lot smaller.
