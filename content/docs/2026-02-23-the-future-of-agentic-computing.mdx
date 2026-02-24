@@ -6,7 +6,7 @@ author: Chris Roth
 tags: [ai, research, economics]
 ---
 
-Three things are converging that could fundamentally change the future of AI: companies are starting to print model weights directly onto silicon, frontier models are plateauing, and model knowledge is diverging from model ability. The implications ripple through hardware, databases, privacy, and the entire software stack.
+Three things are converging that could fundamentally change the future of AI: companies are starting to print model weights directly onto silicon, frontier models are plateauing, and model knowledge is diverging from model ability. The implications could ripple through hardware, databases, privacy, and the entire software stack.
 
 ## Printing LLMs on Chips
 
@@ -30,7 +30,7 @@ Printed chips could become common the way ASICs became common in networking: spe
 
 ### Where Inference ASICs Might Dominate
 
-The biggest near-term impact is making agentic workloads dramatically faster, cheaper, and more energy-efficient — the kind of rapid, iterative reasoning loops that tools like Cursor and Claude Code run today. Agents that can run offline, on-device, with no cloud dependency open up entirely new deployment scenarios.
+The biggest near-term impact would be making agentic workloads dramatically faster, cheaper, and more energy-efficient — the kind of rapid, iterative reasoning loops that tools like Cursor and Claude Code run today. Agents that can run offline, on-device, with no cloud dependency open up entirely new deployment scenarios.
 
 Many devices already use custom silicon for traditional ML — Tesla's HW4/AI5 chips, Axis and Verkada security cameras, Starkey and ReSound hearing aids. What inference ASICs add is the possibility of fast LLM *reasoning* on top of those existing pipelines. A security camera that detects objects is nothing new; one that can reason about what it sees in real time is a different product.
 
@@ -48,7 +48,7 @@ If printed LLM chips take off, the speed implications alone are staggering. 17,0
 
 The cost collapse is equally dramatic. Inference costs have already [dropped ~1,000-fold in three years](https://www.piie.com/blogs/realtime-economics/2026/how-ai-boom-shrugged-deepseek-shock-and-keeps-gaining-steam) while demand rose ~10,000-fold — the cost to achieve a benchmark AI task score plunged from $4,500 to $11.64, a 387x improvement. Printed chips push this further with 20x lower build cost than an H100 and 1000x better performance-per-watt.
 
-What this enables: richer agent loops with more retrieval passes and better chain-of-thought at negligible marginal cost. Agents running in parallel across cloud, edge, desktop, and mobile. Always-on AI assistants that are economically viable at consumer scale.
+What this could enable: richer agent loops with more retrieval passes and better chain-of-thought at negligible marginal cost. Agents running in parallel across cloud, edge, desktop, and mobile. Always-on AI assistants that are economically viable at consumer scale.
 
 ## On-Device, Edge, & Cloud
 
@@ -80,7 +80,7 @@ If agents and their data need to be co-located for maximum speed, multi-master, 
 
 Local-first development is already gaining momentum independently of AI. There are [26+ major tools](https://electric-sql.com/docs/reference/alternatives) in the space — Turso, PowerSync, ElectricSQL, CRDT libraries like Automerge and Yjs — driven by the appeal of offline-capable apps, instant UI, and user-owned data. Adam Wiggins (co-founder of Heroku and [Ink & Switch](https://www.inkandswitch.com/)) compares [local-first to "React in 2013"](https://www.heavybit.com/library/article/local-first-development) — exciting but early. Production deployments exist: Figma's CRDT-inspired multiplayer, Linear's IndexedDB-first architecture, Notion's offline mode. The SQLite renaissance is real — [Turso](https://turso.tech/blog/agentfs), LiteFS, Cloudflare D1, PGlite. On-device AI makes all of this dually relevant: the same infrastructure that gives users instant, offline-capable apps also gives local AI agents instant, co-located data. Turso/libSQL is already positioning for "database-per-agent" architectures.
 
-Today, inference is so slow (2–20 seconds per turn) that data access times are a rounding error. But in a world with ultra-fast ASIC inference, data access actually does become the bottleneck. When the model responds in milliseconds, every network round-trip to a remote database starts to matter. And even at current speeds, agents working with large datasets — codebases, filesystem trees, document repositories — already spend significant time on I/O that has nothing to do with inference. Claude Code spends substantial time reading, searching, and indexing files. For these workloads, co-locating the data with the agent matters regardless of how fast the model runs.
+Today, inference is so slow (2–20 seconds per turn) that data access times are a rounding error. But in a world with ultra-fast ASIC inference, data access actually becomes the bottleneck. When the model responds in milliseconds, every network round-trip to a remote database starts to matter. And even at current speeds, agents working with large datasets — codebases, filesystem trees, document repositories — already spend significant time on I/O that has nothing to do with inference. Claude Code spends substantial time reading, searching, and indexing files. For these workloads, co-locating the data with the agent matters regardless of how fast the model runs.
 
 ### The Privacy Dimension
 
@@ -94,7 +94,7 @@ With AI so accessible, anyone can connect disparate data pieces, create profiles
 
 ## But What Does It All Mean?!
 
-A fundamentally different computing paradigm where AI is fast, cheap, private, and everywhere.
+If these trends play out, we're looking at a fundamentally different computing paradigm where AI is fast, cheap, private, and everywhere.
 
 - Ultra-fast, ultra-cheap inference on printed chips → agents that operate at sub-second speeds
 - Edge/on-device deployment → low network latency for the model
@@ -104,4 +104,4 @@ A fundamentally different computing paradigm where AI is fast, cheap, private, a
 
 The terrifying flip side: sub-second agent turns with local data means autonomous AI systems that iterate at inhuman speed. There are legitimate concerns about what happens when you remove all the friction — latency, cost, network dependencies — that currently acts as a natural brake on autonomous AI.
 
-The throughline across all of this is that AI is becoming dramatically more distributed, faster, and cheaper — and in all likelihood, more democratizing than many people expect. When inference is nearly free and runs on commodity hardware, AI stops being something controlled by a handful of cloud providers and becomes something that runs everywhere, for everyone.
+The bigger picture across all of this is that AI is becoming dramatically more distributed, faster, and cheaper — and in all likelihood, more democratizing than many people expect. When inference is nearly free and runs on commodity hardware, AI stops being something controlled by a handful of cloud providers and becomes something that runs everywhere, for everyone.
