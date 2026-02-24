@@ -4,6 +4,7 @@ import { getMDXComponents } from "@/mdx-components";
 import type { Metadata } from "next";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import Link from "next/link";
+import { ArticleCard } from "@/components/article-card";
 
 export default async function Page(props: PageProps<"/blog/[[...slug]]">) {
   const params = await props.params;
@@ -24,51 +25,13 @@ export default async function Page(props: PageProps<"/blog/[[...slug]]">) {
       <main className="container max-w-4xl mx-auto px-4 py-12 sm:py-16">
         <div className="space-y-8">
           {sortedPages.map((page) => (
-            <article
+            <ArticleCard
               key={page.url}
-              className="group relative border-b pb-8 last:border-0"
-            >
-              <Link href={page.url} className="block space-y-3">
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  {page.data.date && (
-                    <time dateTime={new Date(page.data.date).toISOString()}>
-                      {new Date(page.data.date).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </time>
-                  )}
-                </div>
-
-                <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight group-hover:text-primary transition-colors">
-                  {page.data.title}
-                </h2>
-
-                {page.data.description && (
-                  <p className="text-muted-foreground line-clamp-2">
-                    {page.data.description}
-                  </p>
-                )}
-
-                <div className="flex items-center text-sm font-medium text-primary">
-                  Read more
-                  <svg
-                    className="ml-1 w-4 h-4 transition-transform group-hover:translate-x-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </div>
-              </Link>
-            </article>
+              url={page.url}
+              title={page.data.title}
+              description={page.data.description}
+              date={page.data.date}
+            />
           ))}
         </div>
       </main>
@@ -98,32 +61,27 @@ export default async function Page(props: PageProps<"/blog/[[...slug]]">) {
 
           {/* Blog metadata */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground border-b pb-6">
-            {page.data.author && (
-              <span className="font-medium">{page.data.author}</span>
-            )}
             {page.data.date && (
-              <>
-                <span>•</span>
-                <time dateTime={new Date(page.data.date).toISOString()}>
-                  {new Date(page.data.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </time>
-              </>
+              <time dateTime={new Date(page.data.date).toISOString()}>
+                {new Date(page.data.date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
             )}
             {page.data.tags && page.data.tags.length > 0 && (
               <>
                 <span>•</span>
                 <div className="flex gap-2">
                   {page.data.tags.map((tag) => (
-                    <span
+                    <Link
                       key={tag}
-                      className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium"
+                      href={`/blog/tags/${encodeURIComponent(tag)}`}
+                      className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors"
                     >
                       {tag}
-                    </span>
+                    </Link>
                   ))}
                 </div>
               </>
