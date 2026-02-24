@@ -21,8 +21,31 @@ export default async function Page(props: PageProps<"/blog/[[...slug]]">) {
       return dateB - dateA;
     });
 
+    // Count tags and sort by frequency
+    const tagCounts = new Map<string, number>();
+    for (const page of pages) {
+      for (const tag of page.data.tags ?? []) {
+        tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+      }
+    }
+    const topTags = Array.from(tagCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 20)
+      .map(([tag]) => tag);
+
     return (
       <main className="container max-w-4xl mx-auto px-4 py-12 sm:py-16">
+        <div className="flex gap-2 mb-10 overflow-x-auto no-scrollbar">
+          {topTags.map((tag) => (
+            <Link
+              key={tag}
+              href={`/blog/tags/${encodeURIComponent(tag)}`}
+              className="shrink-0 inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-medium hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
+            >
+              {tag}
+            </Link>
+          ))}
+        </div>
         <div className="space-y-8">
           {sortedPages.map((page) => (
             <ArticleCard

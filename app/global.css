@@ -156,3 +156,11 @@
 .font-heading {
   font-family: 'Hubot Sans', ui-sans-serif, system-ui, sans-serif;
 }
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
