@@ -12,9 +12,9 @@
 - No mentions of links, comments, or "link in comments." The post should stand on its own.
 
 ### Tone
-- Write for an intellectual audience. Assume the reader is already in the loop — don't introduce companies, concepts, or trends as if they're new. Content feels more exciting when the reader senses they should already know about it.
-- Don't be defensive or over-explain counterarguments. Presenting something and then immediately defending it makes the reader question it when they probably weren't questioning. State the idea with confidence and move on.
-- Conversational and direct, not corporate or "LinkedIn-brained."
+- Write for an intellectual audience. Assume the reader is already in the loop — don't introduce companies, concepts, or trends as if they're new. **Content feels more exciting when the reader senses they should already know about it.**
+- Don't over-explain counterarguments. Presenting something and then immediately defending it makes the reader question it when they probably weren't questioning. State the idea with confidence and move on.
+- Conversational and direct, not corporate or "LinkedIn-brained." Use the same exact tone and writing style as the original post.
 - No engagement bait ("Agree?", "Thoughts?", "Most people don't know this...").
 - No emojis.
 
