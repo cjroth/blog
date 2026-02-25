@@ -11,6 +11,10 @@ export function baseOptions(): BaseLayoutProps {
         text: "Blog",
         url: "/blog",
       },
+      {
+        text: "Projects",
+        url: "/projects",
+      },
     ],
   };
 }
