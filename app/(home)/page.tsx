@@ -53,7 +53,7 @@ export default function HomePage() {
 
             {/* Title */}
             <p className="text-lg text-muted-foreground">
-              Software Engineer + Product Manager
+              AI Engineering, Product, & Design
             </p>
 
             {/* Social Links */}
@@ -82,12 +82,20 @@ export default function HomePage() {
         </p>
 
         {/* Call to Action */}
-        <Button asChild size="lg" className="w-fit rounded-full">
-          <Link href="/blog" className="flex items-center gap-2">
-            Read my writing
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </Button>
+        <div className="flex gap-3">
+          <Button asChild size="lg" className="rounded-full">
+            <Link href="/blog" className="flex items-center gap-2">
+              Blog
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="rounded-full">
+            <Link href="/projects" className="flex items-center gap-2">
+              Projects
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </Button>
+        </div>
       </div>
     </main>
   );
