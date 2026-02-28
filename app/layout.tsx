@@ -1,19 +1,19 @@
-import { RootProvider } from 'fumadocs-ui/provider/next';
-import type { Metadata } from 'next';
-import Script from 'next/script';
-import './global.css';
+import { RootProvider } from "fumadocs-ui/provider/next";
+import type { Metadata } from "next";
+import Script from "next/script";
+import "./global.css";
 
 export const metadata: Metadata = {
   title: {
-    default: 'Chris Roth',
-    template: '%s | Chris Roth',
+    default: "Chris Roth",
+    template: "%s | Chris Roth",
   },
 };
 
-export default function Layout({ children }: LayoutProps<'/'>) {
+export default function Layout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen overflow-x-hidden">
         <RootProvider>{children}</RootProvider>
         <Script
           src="https://cloud.umami.is/script.js"
