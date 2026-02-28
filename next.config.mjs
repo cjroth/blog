@@ -5,6 +5,12 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  transpilePackages: ['ink-web'],
+  turbopack: {
+    resolveAlias: {
+      ink: 'ink-web',
+    },
+  },
   async redirects() {
     return [
       {
