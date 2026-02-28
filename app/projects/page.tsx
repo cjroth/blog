@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Card,
   CardHeader,
@@ -9,6 +10,13 @@ import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 
 const projects = [
+  {
+    name: "Rebalance",
+    url: "/docs/2026-02-27-building-an-investment-rebalancer-tui",
+    description:
+      "A portfolio rebalancing tool that runs as both a CLI and a browser app from the same codebase. Imports Schwab position CSVs, lets you set target allocations, and generates the exact trades needed to rebalance.",
+    tech: ["React", "TypeScript", "CLI", "Ink"],
+  },
   {
     name: "Ink Web",
     url: "https://www.ink-web.dev",
@@ -28,39 +36,44 @@ export default function ProjectsPage() {
       </div>
 
       <div className="grid gap-6">
-        {projects.map((project) => (
-          <a
-            key={project.name}
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group block"
-          >
-            <Card className="transition-colors group-hover:border-primary/50">
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <CardTitle className="text-xl">{project.name}</CardTitle>
-                  <ArrowUpRight className="ml-auto h-5 w-5 text-muted-foreground transition-transform group-hover:text-primary group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                </div>
-                <CardDescription className="text-base">
-                  {project.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="inline-flex items-center rounded-md border px-2.5 py-1 text-xs font-medium"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </a>
-        ))}
+        {projects.map((project) => {
+          const isExternal = project.url.startsWith("http");
+          const Wrapper = isExternal ? "a" : Link;
+          const linkProps = isExternal
+            ? { href: project.url, target: "_blank" as const, rel: "noopener noreferrer" }
+            : { href: project.url };
+          return (
+            <Wrapper
+              key={project.name}
+              {...linkProps}
+              className="group block"
+            >
+              <Card className="transition-colors group-hover:border-primary/50">
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <CardTitle className="text-xl">{project.name}</CardTitle>
+                    <ArrowUpRight className="ml-auto h-5 w-5 text-muted-foreground transition-transform group-hover:text-primary group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </div>
+                  <CardDescription className="text-base">
+                    {project.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="inline-flex items-center rounded-md border px-2.5 py-1 text-xs font-medium"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </Wrapper>
+          );
+        })}
       </div>
     </main>
   );
