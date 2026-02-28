@@ -6,9 +6,40 @@ author: Chris Roth
 tags: [software, design]
 ---
 
+**Disclaimer: this is NOT suitable for actual investing. I disclaim all liability. Use it at your own risk.**
+
 I built a portfolio rebalancing tool that runs as both a CLI and a browser app from the same codebase, using [Ink](https://github.com/vadimdemedes/ink) and [ink-web](https://github.com/nichochar/ink-web). It imports Schwab position CSVs, lets you set target allocations, and generates the exact trades needed to rebalance — all client-side with no server communication.
 
+## Install:
 
+<Tabs items={['npm', 'yarn', 'pnpm', 'bun']}>
+  <Tab value="npm">
+    ```bash
+    npm install -g @cjroth/rebalance
+    rebalance
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    yarn global add @cjroth/rebalance
+    rebalance
+    ```
+  </Tab>
+  <Tab value="pnpm">
+    ```bash
+    pnpm add -g @cjroth/rebalance
+    rebalance
+    ```
+  </Tab>
+  <Tab value="bun">
+    ```bash
+    bun add -g @cjroth/rebalance
+    rebalance
+    ```
+  </Tab>
+</Tabs>
+
+## Browser Demo
 
 Try it out below. You can load a demo portfolio or paste your own Schwab CSV export.
 
