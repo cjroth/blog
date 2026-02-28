@@ -22,7 +22,7 @@ const projects = [
     url: "/docs/2026-02-27-building-an-investment-rebalancer-tui",
     description:
       "A portfolio rebalancing tool that runs as both a CLI and a browser app from the same codebase. Imports Schwab position CSVs, lets you set target allocations, and generates the exact trades needed to rebalance.",
-    tech: ["React", "TypeScript", "CLI", "Ink"],
+    tech: ["React", "TypeScript", "CLI"],
   },
 ];
 
