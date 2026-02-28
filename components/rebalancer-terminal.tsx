@@ -11,8 +11,8 @@ import {
   readWizardStateAsync,
   loadPortfolioAsync,
   loadPortfolioDataAsync,
-} from '@cjroth/rebalancer'
-import type { RebalanceInput, Symbol, Account, Holding } from '@cjroth/rebalancer'
+} from '@cjroth/rebalance'
+import type { RebalanceInput, Symbol, Account, Holding } from '@cjroth/rebalance'
 
 interface InitState {
   initialStep: number
