@@ -5,7 +5,7 @@
     "": {
       "name": "blog",
       "dependencies": {
-        "@cjroth/rebalance": "0.2.2",
+        "@cjroth/rebalance": "0.2.3",
         "@radix-ui/react-slot": "^1.2.4",
         "@tailwindcss/typography": "^0.5.19",
         "class-variance-authority": "^0.7.1",
@@ -60,7 +60,7 @@
 
     "@biomejs/cli-win32-x64": ["@biomejs/cli-win32-x64@2.3.8", "", { "os": "win32", "cpu": "x64" }, "sha512-RguzimPoZWtBapfKhKjcWXBVI91tiSprqdBYu7tWhgN8pKRZhw24rFeNZTNf6UiBfjCYCi9eFQs/JzJZIhuK4w=="],
 
-    "@cjroth/rebalance": ["@cjroth/rebalance@0.2.2", "", { "dependencies": { "ink": "^6.8.0", "ink-web": "^0.1.14", "zod": "^4.3.6" }, "peerDependencies": { "react": "^19.0.0", "react-dom": "^19.0.0" }, "optionalPeers": ["react-dom"], "bin": { "rebalance": "dist/cli.js" } }, "sha512-AJAXsm8Hxg8NhiE5Z3Fs8JEqeceSUPWLAttVURUzyfg8J1sKIUcEcr74wOlZHwVopxa0hAB+X5KidrK6zYQ6iw=="],
+    "@cjroth/rebalance": ["@cjroth/rebalance@0.2.3", "", { "dependencies": { "ink": "^6.8.0", "ink-web": "^0.1.14", "zod": "^4.3.6" }, "peerDependencies": { "react": "^19.0.0", "react-dom": "^19.0.0" }, "optionalPeers": ["react-dom"], "bin": { "rebalance": "dist/cli.js" } }, "sha512-PZlH9giXkQ8UIl0NVFe1F2rpqKbLoZUAEzRM7PV2dqZ8ju3yG+4lbqLXYoN6F30Y6ZJhGFBBtBYbv2rWSwyCzg=="],
 
     "@emnapi/runtime": ["@emnapi/runtime@1.7.1", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-PVtJr5CmLwYAU9PZDMITZoR5iAOShYREoR45EyyLrbntV50mdePTgUn4AmOw90Ifcj+x2kRjdzr1HP3RrNiHGA=="],
 
