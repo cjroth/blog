@@ -1,0 +1,64 @@
+---
+title: "Terminals Are Cool Again"
+description: "Why terminals are having a moment."
+date: 2026-03-05
+author: Chris Roth
+tags: [software, design]
+---
+
+[Claude Code](https://claude.com/product/claude-code) is having a moment. [Cursor CLI](https://cursor.com/cli) is having a moment. [Gemini CLI](https://geminicli.com/) is having a moment. Same with [OpenClaw](https://openclaw.ai/), [OpenCode](https://opencode.ai/), and [OpenAI Codex](https://openai.com/codex/).
+
+CLIs ousted MCPs overnight.
+
+## 2026: The Year of the Terminal.
+
+The two most exciting groups building in the space are absolutely on fire: [Charm](https://charm.land/), and [Anomaly](https://anoma.ly/). The React rendering engine behind Claude Code, [Ink](https://github.com/vadimdemedes/ink), is under very active development as well. Claude rewrote Ink's internal rendering engine [^1][^2][^3] and Ink massively improved its rendering engine in v6 [^4].
+
+[^1]: [The original "screen flickering" issue (#769)](https://github.com/anthropics/claude-code/issues/769) that kicked off the whole effort
+[^2]: [The Anthropic TUI engineer's HN comment](https://news.ycombinator.com/item?id=46701013) confirming the differential renderer shipped and the ~85% flicker reduction
+[^3]: [Boris Cherny's Threads post](https://www.threads.com/@boris_cherny/post/DSZbZatiIvJ) on the rewrite
+[^4]: [Ink v6.7.0 release notes](https://github.com/vadimdemedes/ink/releases/tag/v6.7.0), which introduced synchronized output support (DEC mode 2026) to fix flickering at the terminal level
+
+I agree with Charm wholeheartedly here:
+
+<div className="text-2xl leading-relaxed font-medium italic border-l-4 border-foreground/20 pl-6 my-8">We started building terminal user interface tooling on the premise that the terminal is a better place to work (and play) than most people realize.</div>
+
+But why are terminals so popular?
+
+## Terminals Close The Agent Self-Improvement Loop
+
+Terminal apps are more accessible for agents to use, test, and debug. This means agents like Claude Code can improve themselves faster. Closing the loop on web, desktop, and mobile is much more complicated because it requires a browser, traversing the DOM, and a multimodal AI model that can understand and act on screenshots. These things are catching up, but they're not there yet.
+
+<div className="text-2xl leading-relaxed font-medium italic my-8">It's faster to build terminal apps than web apps, and this speed is critical in the era where being one day late could mean someone else's project goes viral instead of yours.</div>
+
+So, if web, mobile, and desktop are catching up, will terminal apps get left behind?
+
+My guess is terminals will be a new big thing and go mainstream in surprising new ways.
+
+## Terminals Are Going Mainstream
+
+1. Generational change. UX paradigms follow generational changes. Many older folks had a hard time adapting to computers. Many people who were comfortable with computers previously were still uncomfortable with terminals. Every generation starts out native to the tools popular at the time that they're kids. Terminals are popular now, kids will grow up playing with them. This is a generational change. Ironically, terminals were also previously popular before Windows became a thing - and unsurprisingly, the kids who grew up during that era are not intimidated by CLIs.
+
+## Terminals Are Weirdly Accessible
+This is my contrarian opinion, but hear me out. Terminal apps are fundamentally simpler, which translates to easier to design, easier to use, faster, and more accessible to Humans, Agents, and Screen Readers. If you don't believe me, think about how long it took you to learn your way around Claude Code's UI compared to the last desktop app you downloaded.
+
+<div className="text-2xl leading-relaxed font-medium italic my-8">Accessibility issues with TUIs today is a question of bad design, not fundamental possibility.</div>
+
+And it's not just about human accessibility - probably more important, terminals are more accessible to agents. Traditional UIs are complicated. They require DOM, SwiftUI view hierarchies, etc. Every medium (web/desktop/mobile) and every screen size must be accounted for.
+
+But aren't agents getting good at controlling the browser? Yes; but it will always be more complicated and importantly, require more context and tokens to control something as complicated as a browser compared to something as lofi as a terminal. The best multimodal models today have a hard time connecting their visual and textual cortexes.
+
+<div className="text-2xl leading-relaxed font-medium italic my-8">A simple list of keyboard and voice inputs, and an instant rectangle of Unicode characters as output is far more accessible to both Agents, Humans, and screen readers.</div>
+
+
+
+## Terminals Are Just Cool
+**They're faster to navigate.** Keyboard navigation, when designed well, is faster than dragging a cursor around. **Ask vim users if you don't believe me.**
+
+**They're faster to render.** Rendering engines for TUIs are faster. Streaming content from TUIs over the internet is faster. There's no bundle size to download (when using via ssh). You can use them remotely inside of a remote machine.
+
+**A single CLI can serve both humans and agents.** You can run a TUI as a human and navigate (eg Claude Code CLI). But you can also, with the same binary, run claude do-a-thing and have it work with pure stdin and stdout.
+
+**They can support mouse- and touch- based navigation.** It's not as common yet (or *anymore*, depending on your generation!), but it's a thing.
+
+<div className="text-2xl leading-relaxed font-medium italic my-8">Keyboard navigation, when designed well, is faster than dragging a cursor around. Ask vim users if you don't believe me.</div>
