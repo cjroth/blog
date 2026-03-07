@@ -12,6 +12,8 @@ Conceptually, this is easy to build—but after multiple iterations, we found th
 
 Here are a few approaches we tried, why they didn't work, and what finally did.
 
+<!-- Email Cutoff -->
+
 ## Naive Approach: Render XML with JSON Props 👎
 
 Our first attempt: have the LLM fetch the weather with a tool, generate an XML widget tag, then intercept that tag in code and replace it with a React component.

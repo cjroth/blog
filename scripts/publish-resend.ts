@@ -1,10 +1,13 @@
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
 import { marked } from "marked";
+import { render } from "@react-email/components";
+import { createElement } from "react";
+import { NewsletterEmail } from "../emails/newsletter";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const RESEND_SEGMENT_ID = process.env.RESEND_SEGMENT_ID;
-const RESEND_FROM = process.env.RESEND_FROM ?? "Chris Roth <chris@cjroth.com>";
+const RESEND_FROM = process.env.RESEND_FROM ?? "Chris Roth <chris@blog.cjroth.com>";
 
 if (!RESEND_API_KEY) {
   console.error("Missing RESEND_API_KEY env var");
@@ -41,7 +44,6 @@ function parseFrontmatter(raw: string) {
     if (idx > 0) {
       const key = line.slice(0, idx).trim();
       let val = line.slice(idx + 1).trim();
-      // strip surrounding quotes
       if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
         val = val.slice(1, -1);
       }
@@ -52,76 +54,86 @@ function parseFrontmatter(raw: string) {
 }
 
 function mdxToHtml(mdx: string): string {
-  // Strip JSX components (self-closing and block)
-  let md = mdx
-    // Convert <div className="...">text</div> to just the text content
+  const md = mdx
     .replace(/<div[^>]*>/g, "")
     .replace(/<\/div>/g, "")
-    // Remove <a> JSX tags but keep content (marked will handle markdown links)
     .replace(/<a[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/g, "[$2]($1)")
-    // Strip any remaining self-closing JSX tags
     .replace(/<[A-Z][^/>]*\/>/g, "")
-    // Strip any remaining JSX block tags
     .replace(/<[A-Z][^>]*>[\s\S]*?<\/[A-Z][^>]*>/g, "");
 
-  const html = marked.parse(md, { async: false }) as string;
-  return html;
+  return marked.parse(md, { async: false }) as string;
 }
 
-function buildEmailHtml(title: string, bodyHtml: string, postUrl: string): string {
-  return `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 20px; }
-    h1 { font-size: 28px; margin-bottom: 8px; }
-    h2 { font-size: 22px; margin-top: 32px; }
-    a { color: #2563eb; }
-    blockquote { border-left: 3px solid #d1d5db; margin-left: 0; padding-left: 16px; color: #4b5563; }
-    pre { background: #f3f4f6; padding: 16px; border-radius: 6px; overflow-x: auto; }
-    code { background: #f3f4f6; padding: 2px 4px; border-radius: 3px; font-size: 14px; }
-    pre code { background: none; padding: 0; }
-    hr { border: none; border-top: 1px solid #e5e7eb; margin: 32px 0; }
-    .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-size: 14px; color: #6b7280; }
-  </style>
-</head>
-<body>
-  <h1>${title}</h1>
-  ${bodyHtml}
-  <p><a href="${postUrl}">Read on cjroth.com</a></p>
-  <div class="footer">
-    <p>You're receiving this because you subscribed at cjroth.com.</p>
-    <p><a href="{{{RESEND_UNSUBSCRIBE_URL}}}">Unsubscribe</a></p>
-  </div>
-</body>
-</html>`;
+function inlineBodyStyles(html: string): string {
+  return html
+    .replace(/<p>/g, '<p style="color:#1a1a1a;font-size:16px;line-height:1.7;margin:16px 0;">')
+    .replace(/<h2>/g, '<h2 style="color:#1a1a1a;font-size:20px;font-weight:600;margin:28px 0 12px;">')
+    .replace(/<h3>/g, '<h3 style="color:#1a1a1a;font-size:18px;font-weight:600;margin:24px 0 8px;">')
+    .replace(/<blockquote>/g, '<blockquote style="border-left:3px solid #d1d5db;margin:16px 0;padding-left:16px;color:#4b5563;">')
+    .replace(/<pre>/g, '<pre style="background:#f3f4f6;padding:16px;border-radius:6px;overflow-x:auto;">')
+    .replace(/<code>/g, '<code style="background:#f3f4f6;padding:2px 4px;border-radius:3px;font-size:14px;">')
+    .replace(/<a /g, '<a style="color:#2563eb;" ')
+    .replace(/<ul>/g, '<ul style="color:#1a1a1a;font-size:16px;line-height:1.7;margin:16px 0;padding-left:24px;">')
+    .replace(/<ol>/g, '<ol style="color:#1a1a1a;font-size:16px;line-height:1.7;margin:16px 0;padding-left:24px;">')
+    .replace(/<li>/g, '<li style="margin:4px 0;">');
 }
 
-async function createBroadcast(subject: string, html: string, name: string) {
-  const res = await fetch("https://api.resend.com/broadcasts", {
-    method: "POST",
+async function resendFetch(path: string, options?: RequestInit) {
+  return fetch(`https://api.resend.com${path}`, {
+    ...options,
     headers: {
       Authorization: `Bearer ${RESEND_API_KEY}`,
       "Content-Type": "application/json",
+      ...options?.headers,
     },
-    body: JSON.stringify({
-      segment_id: RESEND_SEGMENT_ID,
-      from: RESEND_FROM,
-      subject,
-      html,
-      name,
-    }),
   });
+}
 
-  if (!res.ok) {
-    const body = await res.json().catch(() => null);
-    console.error("Resend API error:", res.status, body);
-    process.exit(1);
+async function findExistingDraft(name: string): Promise<string | null> {
+  const res = await resendFetch("/broadcasts?limit=100");
+  if (!res.ok) return null;
+  const { data } = (await res.json()) as {
+    data: { id: string; status: string }[];
+  };
+  const drafts = data.filter((b) => b.status === "draft");
+  for (const draft of drafts) {
+    await new Promise((r) => setTimeout(r, 600));
+    const detail = await resendFetch(`/broadcasts/${draft.id}`);
+    if (!detail.ok) continue;
+    const broadcast = (await detail.json()) as { name: string };
+    if (broadcast.name === name) return draft.id;
+  }
+  return null;
+}
+
+async function upsertBroadcast(subject: string, html: string, name: string) {
+  const existingId = await findExistingDraft(name);
+  await new Promise((r) => setTimeout(r, 600));
+
+  if (existingId) {
+    const res = await resendFetch(`/broadcasts/${existingId}`, {
+      method: "PATCH",
+      body: JSON.stringify({ subject, html, from: RESEND_FROM, segment_id: RESEND_SEGMENT_ID, name }),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => null);
+      console.error("Resend API error (update):", res.status, body);
+      process.exit(1);
+    }
+    return { id: existingId, updated: true };
   }
 
-  return (await res.json()) as { id: string };
+  const res = await resendFetch("/broadcasts", {
+    method: "POST",
+    body: JSON.stringify({ segment_id: RESEND_SEGMENT_ID, from: RESEND_FROM, subject, html, name }),
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    console.error("Resend API error (create):", res.status, body);
+    process.exit(1);
+  }
+  const { id } = (await res.json()) as { id: string };
+  return { id, updated: false };
 }
 
 // Main
@@ -137,13 +149,27 @@ const date = meta.date || "";
 const slug = resolvedPath.split("/").pop()?.replace(/\.mdx?$/, "") ?? "";
 const postUrl = `https://cjroth.com/blog/${slug}`;
 
+const formattedDate = date
+  ? new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+  : "";
+
 console.log(`Title: ${title}`);
-console.log(`Date: ${date}`);
+console.log(`Date: ${formattedDate}`);
 console.log(`URL: ${postUrl}`);
 
-const bodyHtml = mdxToHtml(body);
-const emailHtml = buildEmailHtml(title, bodyHtml, postUrl);
+const EMAIL_CUTOFF = "<!-- Email Cutoff -->";
+const emailBody = body.includes(EMAIL_CUTOFF) ? body.split(EMAIL_CUTOFF)[0] : body;
+const bodyHtml = inlineBodyStyles(mdxToHtml(emailBody));
 
-const { id } = await createBroadcast(title, emailHtml, `${slug}`);
-console.log(`\nBroadcast created (draft): ${id}`);
+const emailHtml = await render(
+  createElement(NewsletterEmail, {
+    title,
+    date: formattedDate,
+    postUrl,
+    bodyHtml,
+  })
+);
+
+const { id, updated } = await upsertBroadcast(title, emailHtml, `${slug}`);
+console.log(`\nBroadcast ${updated ? "updated" : "created"} (draft): ${id}`);
 console.log("Go to https://resend.com/broadcasts to review and send.");
