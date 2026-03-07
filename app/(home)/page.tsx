@@ -5,6 +5,7 @@ import { HiMail, HiRss } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { source } from "@/lib/source";
+import { NewsletterSignup } from "@/components/newsletter-signup";
 
 const socialLinks = [
   {
@@ -172,6 +173,13 @@ export default function HomePage() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Newsletter Signup */}
+      <section className="border-t">
+        <div className="max-w-2xl mx-auto px-6 py-16 sm:py-20">
+          <NewsletterSignup />
         </div>
       </section>
     </main>
