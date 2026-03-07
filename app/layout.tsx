@@ -8,6 +8,11 @@ export const metadata: Metadata = {
     default: "Chris Roth",
     template: "%s | Chris Roth",
   },
+  alternates: {
+    types: {
+      "application/atom+xml": "/feed.xml",
+    },
+  },
 };
 
 export default function Layout({ children }: LayoutProps<"/">) {
