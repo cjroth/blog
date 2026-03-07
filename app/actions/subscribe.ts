@@ -21,7 +21,14 @@ export async function subscribe(
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, unsubscribed: false, signup_source: "cjroth.com" }),
+    body: JSON.stringify({
+      email,
+      unsubscribed: false,
+      signup_source: "cjroth.com",
+      ...(process.env.RESEND_SEGMENT_ID
+        ? { segments: [process.env.RESEND_SEGMENT_ID] }
+        : {}),
+    }),
   });
 
   if (res.status === 409) {

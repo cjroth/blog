@@ -10,7 +10,7 @@
     "postinstall": "fumadocs-mdx",
     "lint": "biome check",
     "format": "biome format --write",
-    "publish:beehiiv": "bun scripts/publish-beehiiv.ts"
+    "publish:resend": "bun scripts/publish-resend.ts"
   },
   "dependencies": {
     "@cjroth/rebalance": "0.2.3",
