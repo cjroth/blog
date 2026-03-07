@@ -6,15 +6,15 @@ import { createElement } from "react";
 import { NewsletterEmail } from "../emails/newsletter";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const RESEND_SEGMENT_ID = process.env.RESEND_SEGMENT_ID;
+const RESEND_AUDIENCE_ID = process.env.RESEND_AUDIENCE_ID;
 const RESEND_FROM = process.env.RESEND_FROM ?? "Chris Roth <chris@blog.cjroth.com>";
 
 if (!RESEND_API_KEY) {
   console.error("Missing RESEND_API_KEY env var");
   process.exit(1);
 }
-if (!RESEND_SEGMENT_ID) {
-  console.error("Missing RESEND_SEGMENT_ID env var");
+if (!RESEND_AUDIENCE_ID) {
+  console.error("Missing RESEND_AUDIENCE_ID env var");
   process.exit(1);
 }
 
@@ -113,7 +113,7 @@ async function upsertBroadcast(subject: string, html: string, name: string) {
   if (existingId) {
     const res = await resendFetch(`/broadcasts/${existingId}`, {
       method: "PATCH",
-      body: JSON.stringify({ subject, html, from: RESEND_FROM, segment_id: RESEND_SEGMENT_ID, name }),
+      body: JSON.stringify({ subject, html, from: RESEND_FROM, audience_id: RESEND_AUDIENCE_ID, name }),
     });
     if (!res.ok) {
       const body = await res.json().catch(() => null);
@@ -125,7 +125,7 @@ async function upsertBroadcast(subject: string, html: string, name: string) {
 
   const res = await resendFetch("/broadcasts", {
     method: "POST",
-    body: JSON.stringify({ segment_id: RESEND_SEGMENT_ID, from: RESEND_FROM, subject, html, name }),
+    body: JSON.stringify({ audience_id: RESEND_AUDIENCE_ID, from: RESEND_FROM, subject, html, name }),
   });
   if (!res.ok) {
     const body = await res.json().catch(() => null);

@@ -15,21 +15,25 @@ export async function subscribe(
     return { success: false, message: "Newsletter signup is not configured." };
   }
 
-  const res = await fetch("https://api.resend.com/contacts", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
+  const audienceId = process.env.RESEND_AUDIENCE_ID;
+  if (!audienceId) {
+    return { success: false, message: "Newsletter signup is not configured." };
+  }
+
+  const res = await fetch(
+    `https://api.resend.com/audiences/${audienceId}/contacts`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        unsubscribed: false,
+      }),
     },
-    body: JSON.stringify({
-      email,
-      unsubscribed: false,
-      signup_source: "cjroth.com",
-      ...(process.env.RESEND_SEGMENT_ID
-        ? { segments: [process.env.RESEND_SEGMENT_ID] }
-        : {}),
-    }),
-  });
+  );
 
   if (res.status === 409) {
     return { success: true, message: "You're already subscribed!" };
