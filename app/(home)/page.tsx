@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { SiGithub, SiLinkedin, SiThreads, SiBluesky } from "react-icons/si";
-import { HiMail } from "react-icons/hi";
+import { HiMail, HiRss } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { source } from "@/lib/source";
@@ -40,6 +40,11 @@ const socialLinks = [
     name: "Email",
     href: "mailto:hi@cjroth.com",
     icon: <HiMail className="w-5 h-5" />,
+  },
+  {
+    name: "RSS",
+    href: "/feed.xml",
+    icon: <HiRss className="w-5 h-5" />,
   },
 ];
 
